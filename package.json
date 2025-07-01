@@ -1,0 +1,33 @@
+{
+  "name": "synid",
+  "version": "0.1.0",
+  "description": "A smart, structured, verifiable ID generator for Node.js",
+  "main": "src/index.js",
+  "bin": {
+    "synid": "cli/synid.js"
+  },
+  "type": "module",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [
+    "id",
+    "uuid",
+    "generator",
+    "smart-id",
+    "synid",
+    "base62",
+    "secure"
+  ],
+  "author": "Ayoub Salhi",
+  "license": "MIT",
+  "devDependencies": {
+    "vitest": "^1.0.0"
+  },
+  "dependencies": {
+    "crypto": "^1.0.1"
+  }
+}
