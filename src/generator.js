@@ -77,16 +77,4 @@ function toBase62(buffer) {
     return result || '0';
 }
 
-const id = generateId({
-    prefix: "API",
-    shard: "X1Z3",
-    type: "usr",
-    length: 10,
-    encoding: "base62",
-    includeTimestamp: true
-});
-
-
-console.log(id);
-
 export default generateId;

@@ -20,20 +20,22 @@ npm install synid
 import { generateId } from 'synid';
 
 // Basic usage
-const id = generateId({ includeShard: false });
+const id = generateId({ shard: "t5JJ4" });
 console.log(id); 
-// ➜ '20250701120315-usr-194d83f3'
+// ➜ 'usr-20250701155531-t5JJ4-27c88877'
 
 // With options
-const customId = generateId({
-  prefix: 'PRE',
-  shard: '01AF',
-  length: 10,
-  encoding: 'hex',
-  includeChecksum: true
+const id = generateId({
+    prefix: "api",
+    shard: "X1Z3",
+    type: "usr",
+    length: 10,
+    encoding: "base62",
+    includeTimestamp: true
 });
+
 console.log(customId);
-// ➜ 'PRE-20250701120504-01AF-usr-1da6c5e6cd-D2C1'
+// ➜ 'api-usr-20250701155331-X1Z3-yAjDvwBX6B-D2C1'
 ```
 
 ---
