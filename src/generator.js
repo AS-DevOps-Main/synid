@@ -1,61 +1,92 @@
-// src/generator.js
 import crypto from 'crypto';
 
 /**
- * generate a unique ID with configurable options.
- * @param {Object} options - Configuration options.
- * @param {string} [options.prefix] - Optional prefix for the ID.
- * @param {string} [options.shard] - The ID shard.
- * @param {boolean} [options.includeShard=true] - Whether to include shard (default: true).
- * @param {string} [options.type="usr"] - The ID type (e.g. usr, img, etc) default: "usr".
- * @param {number} [options.length=8] - Length of the random part of the ID.
- * @param {string} [options.encoding='hex'] - Encoding type: 'hex', 'base64', 'base62', etc.
- * @returns {string} The generated ID string.
+ * Generate a unique ID with structured format and flexible options.
+ * @param {Object} options
+ * @param {string} [options.prefix] - Optional prefix (e.g. "API", "USR")
+ * @param {string} [options.shard] - Node/shard identifier
+ * @param {boolean} [options.includeShard=true] - Include shard part
+ * @param {boolean} [options.includeTimestamp=true] - Include UTC timestamp
+ * @param {string} [options.type="usr"] - Type or category of ID
+ * @param {number} [options.length=8] - Random byte length
+ * @param {string} [options.encoding='hex'] - 'hex' | 'base64' | 'base62'
+ * @returns {string}
  */
 
 function generateId(options = {}) {
     const {
         prefix = "",
+        shard = "",
         includeShard = true,
-        shard,
+        includeTimestamp = true,
         type = "usr",
         length = 8,
         encoding = "hex"
     } = options;
 
-    if (includeShard && (!shard || shard.length === 0)) {
-        throw new Error("The shard must not be empty when includeShard is set to true.");
+    if (includeShard && !shard) {
+        throw new Error("The shard must not be empty when includeShard is true.");
     }
 
-    if (!type || type.length === 0) {
-        throw new Error("The type must not be empty.");
+    if (!type || typeof type !== 'string') {
+        throw new Error("The type must be a non-empty string.");
     }
 
-    // generate the Timestamp string
-    const timestamp = new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
-    
-    // Generates random bytes securely
+    // Timestamp (optional)
+    const timestamp = includeTimestamp
+        ? new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14)
+        : null;
+
+    // Randomness
     const randomBytes = crypto.randomBytes(length);
-
-    // Encode random bytes according to specified encoding
     let randomPart;
     switch (encoding) {
         case 'base64':
             randomPart = randomBytes.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').slice(0, length);
             break;
         case 'base62':
-            randomPart = randomBytes.toString('hex').slice(0, length);
+            randomPart = toBase62(randomBytes).slice(0, length);
             break;
         case 'hex':
         default:
             randomPart = randomBytes.toString('hex').slice(0, length);
     }
 
-    // Compose final ID parts
-    const prefixPart = prefix ? `${prefix.trim()}-` : '';
-    const shardPart = includeShard ? `${shard}-` : '';
-    const id = `${prefixPart}${timestamp}-${shardPart}${type}-${randomPart}`;
-    return id;
+    // Compose
+    const parts = [
+        prefix.trim(),
+        type,
+        includeTimestamp ? timestamp : null,
+        includeShard ? shard : null,
+        randomPart
+    ].filter(Boolean);
+
+
+    return parts.join('-');
 }
+
+// Optional base62 encoder
+const base62chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+function toBase62(buffer) {
+    let num = BigInt('0x' + buffer.toString('hex'));
+    let result = '';
+    while (num > 0) {
+        result = base62chars[num % 62n] + result;
+        num /= 62n;
+    }
+    return result || '0';
+}
+
+const id = generateId({
+    prefix: "API",
+    shard: "X1Z3",
+    type: "usr",
+    length: 10,
+    encoding: "base62",
+    includeTimestamp: true
+});
+
+
+console.log(id);
 
 export default generateId;
