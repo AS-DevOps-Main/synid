@@ -10,6 +10,7 @@ Designed for **distributed systems**, **audit trails**, **security-sensitive app
 
 ```bash
 npm install synid
+```
 
 ---
 
