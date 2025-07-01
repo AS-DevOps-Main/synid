@@ -26,7 +26,7 @@ console.log(id);
 
 // With options
 const customId = generateId({
-  prefix: 'usr',
+  prefix: 'PRE',
   shard: '01AF',
   length: 10,
   encoding: 'hex',
