@@ -34,8 +34,9 @@ function generateId(options = {}) {
 
     // Timestamp (optional)
     const timestamp = includeTimestamp
-        ? new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14)
+        ? new Date().toISOString().slice(0, 19).replace(/[-T:]/g, '')
         : null;
+
 
     // Randomness
     const randomBytes = crypto.randomBytes(length);
