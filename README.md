@@ -1,4 +1,3 @@
-````markdown
 # 🔐 synid — Smart, Structured & Secure ID Generator
 
 `synid` is a powerful Node.js package that generates **smart**, **unique**, and **verifiable IDs**, going far beyond traditional formats like `uuidv4`.
@@ -11,7 +10,6 @@ Designed for **distributed systems**, **audit trails**, **security-sensitive app
 
 ```bash
 npm install synid
-````
 
 ---
 
