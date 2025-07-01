@@ -20,21 +20,20 @@ npm install synid
 import { generateId } from 'synid';
 
 // Basic usage
-const id = generateId();
+const id = generateId({ includeShard: false });
 console.log(id); 
-// ➜ '20250701224512-X9pF7v3k'
+// ➜ '20250701120315-usr-194d83f3'
 
 // With options
 const customId = generateId({
   prefix: 'usr',
-  shardId: '01AF',
-  includeTimestamp: true,
+  shard: '01AF',
   length: 10,
-  encoding: 'base62',
+  encoding: 'hex',
   includeChecksum: true
 });
 console.log(customId);
-// ➜ '20250701224512-01AF-usr-X9pF7v3k-D2C1'
+// ➜ 'PRE-20250701120504-01AF-usr-1da6c5e6cd-D2C1'
 ```
 
 ---
@@ -45,10 +44,11 @@ console.log(customId);
 
 | Option             | Type      | Default | Description                                                     |
 | ------------------ | --------- | ------- | --------------------------------------------------------------- |
-| `prefix`           | `string`  | `''`    | Optional entity prefix like `usr`, `img`, `ord`                 |
-| `shardId`          | `string`  | `''`    | Optional node/shard/machine ID to ensure distributed uniqueness |
+| `prefix`           | `string`  | `''`    | Optional entity prefix                 |
+| `type`              | `string` | `usr` | The ID type, like: `usr`, `img`, `doc`, `sys` etc |
+| `shard`          | `string`  | `''`    | Optional node/shard/machine ID to ensure distributed uniqueness |
 | `length`           | `number`  | `8`     | Length of the random portion (base depends on encoding)         |
-| `includeTimestamp` | `boolean` | `true`  | Include a sortable UTC timestamp (ISO compressed)               |
+| `includeShard` | `boolean` | `true`  | Include the Shard           |
 | `encoding`         | `string`  | `'hex'` | Encoding of random data: `'hex'`, `'base64'`, `'base62'`, etc.  |
 | `includeChecksum`  | `boolean` | `false` | Whether to append a CRC16 or HMAC-based checksum for validation |
 
@@ -70,15 +70,17 @@ Returns the structured parts of the ID as an object.
 
 ```js
 const details = decodeId('20250701224512-01AF-usr-X9pF7v3k-D2C1');
-/*
+```
+Output:
+
+```markdown
 {
   timestamp: '2025-07-01T22:45:12Z',
-  shardId: '01AF',
-  prefix: 'usr',
+  shard: '01AF',
+  type: 'usr',
   random: 'X9pF7v3k',
   checksum: 'D2C1'
 }
-*/
 ```
 
 ---
