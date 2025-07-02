@@ -1,27 +1,46 @@
-import crypto from 'crypto';
-
 /**
- * Decode and destruct the ID and return its components values
- * @param {Object} options 
- * @param {}
+ * Decode a generated ID back into its structured components.
+ * @param {string} id - The full ID string.
+ * @returns {Object} An object containing prefix, type, timestamp, shard, random
  */
 
 function decodeId(id) {
-    const parts = id.split('-');
-
-    const ordChar = {
-        "prefix": 0,
-        "type": 1,
-        "timestamp": 2,
-        "shard": 3,
-        "random": 4
+    let result = {};
+    const ords = {
+        0: "prefix",
+        1: "type",
+        2: "timestamp",
+        3: "shard"
     };
+    let x = 0;
+
+    const parts = id.split('-');
 
     if (parts.length < 2) {
         throw new Error("Invalid ID format.");
     }
 
-    const ord = parts[parts.length];
+    const forward = parts[parts.length - 1];
+
+    if (!/^[01]{4}$/.test(forward)) {
+        throw new Error("Malformed forward flag.");
+    }
+
+    const randomPart = parts[parts.length - 2];
+    result.random = randomPart;
+
+    forward.split('').forEach((ord, idx) => {
+        if (ord === "1" && ords[idx] !== "timestamp") {
+            result[ords[idx]] = parts[x];
+            x += 1;
+        } else if (ord === "1" && ords[idx] === "timestamp") {
+            result[ords[idx]] = parseCompactTimestamp(parts[x]);
+            x += 1;
+        }
+        
+    });
+
+    return result;
 }
 
 function parseCompactTimestamp(ts) {
@@ -35,3 +54,5 @@ function parseCompactTimestamp(ts) {
   ];
   return new Date(`${y}-${mo}-${d}T${h}:${mi}:${s}Z`);
 }
+
+export default decodeId;

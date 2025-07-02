@@ -62,12 +62,17 @@ function generateId(options = {}) {
         randomPart
     ].filter(Boolean);
 
-    const components = {
-        prefix: prefix ? true : false,
-        type: type ? true : false,
-        timestamp: includeTimestamp,
-        shard: includeShard
-    }
+    const components = [
+        !!prefix.trim(),
+        !!type.trim(),
+        !!includeTimestamp,
+        !!(includeShard && shard)
+    ];
+
+
+    const forward = components.map(c => (c ? '1' : '0')).join('');
+
+    parts.push(forward);
 
 
     return parts.join('-');
