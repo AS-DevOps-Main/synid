@@ -118,7 +118,7 @@ Output:
 
 ## 🧩 Future Roadmap
 
-* [ ] Built-in support for Base62 encoder
+* [x] Built-in support for Base62 encoder
 * [ ] Custom ID namespace registration
 * [ ] CLI tool for ID generation & validation
 * [ ] ESM and CommonJS dual export
@@ -131,12 +131,12 @@ Output:
 Contributions are welcome!
 
 ```bash
-git clone https://github.com/yourusername/synid.git
+git clone https://github.com/AS-DevOps-Main/synid.git
 cd synid
 npm install
 ```
 
-Submit issues or pull requests on the [GitHub repository](https://github.com/yourusername/synid).
+Submit issues or pull requests on the [GitHub repository](https://github.com/AS-DevOps-Main/synid).
 
 ---
 

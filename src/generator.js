@@ -62,11 +62,18 @@ function generateId(options = {}) {
         randomPart
     ].filter(Boolean);
 
+    const components = {
+        prefix: prefix ? true : false,
+        type: type ? true : false,
+        timestamp: includeTimestamp,
+        shard: includeShard
+    }
+
 
     return parts.join('-');
 }
 
-// Optional base62 encoder
+// base62 encoder
 const base62chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 function toBase62(buffer) {
     let num = BigInt('0x' + buffer.toString('hex'));
