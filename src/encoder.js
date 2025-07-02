@@ -55,4 +55,4 @@ function parseCompactTimestamp(ts) {
   return new Date(`${y}-${mo}-${d}T${h}:${mi}:${s}Z`);
 }
 
-export default decodeId;
+export { decodeId };

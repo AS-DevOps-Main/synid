@@ -90,4 +90,4 @@ function toBase62(buffer) {
     return result || '0';
 }
 
-export default generateId;
+export { generateId };
