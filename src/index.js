@@ -1,15 +1,11 @@
 // src/index.js
 
 
-import { generateId } from './generator';
-import { parseId } from './parser';
-import { validateId } from './parser';
-import { decodeTimestamp } from './encoder';
+import { generateId } from './generator.js';
+import { decodeId } from './encoder.js';
 
 
 export {
     generateId,
-    parseId,
-    validateId,
-    decodeTimestamp
+    decodeId
 };
