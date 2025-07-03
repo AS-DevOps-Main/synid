@@ -1,16 +1,10 @@
-import { generateId } from '../src/generator.js';
-import { decodeId } from '../src/encoder.js';
+import { generateId } from "@codetronix/synid";
 
 const id = generateId({
-    prefix: "api",
-    shard: "eu1",
-    type: "usr",
-    length: 15,
-    encoding: "base62",
-    includeTimestamp: false
+    shard: "usa",
+    prefix: "API",
+    length: 20,
+    type: "img"
 });
 
-console.log(`ID: ${id}`);
-
-const details = decodeId(id);
-console.log(`ID details: ${JSON.stringify(details, null, 4)}`);
+console.log(id);
